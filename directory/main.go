@@ -12,12 +12,7 @@ func main() {
 
 	for choose != 5 {
 		fmt.Println("")
-		fmt.Println("Welcome to Zumayas Directory")
-		fmt.Println("1- Consult the directory")
-		fmt.Println("2- Add a new number")
-		fmt.Println("3- Delete a number")
-		fmt.Println("4- Modify a number")
-		fmt.Println("5- Exit")
+		fmt.Println("Welcome to Zumayas Directory \n 1- Consult the directory \n 2- Add a new number \n 3- Delete a number \n 4- Modify a number \n 5- Exit")
 		fmt.Print("Make a choice: ")
 		fmt.Scan(&choose)
 		fmt.Println("")
@@ -30,7 +25,7 @@ func main() {
 		case 3:
 			deleteNumber(directory)
 		case 4:
-			modifyNumber()
+			modifyNumber(directory)
 		}
 	}
 	fmt.Print("bye")
@@ -74,6 +69,47 @@ func deleteNumber(directory map[string]string) {
 	}
 }
 
-func modifyNumber() {
-	fmt.Println("Here u can modify a number")
+func modifyNumber(directory map[string]string) {
+	var (
+		name, newNumber, newName, oldName string
+		choice                            int
+	)
+
+	if len(directory) == 0 {
+		fmt.Println("Empty")
+	} else {
+		fmt.Print("What do you want to modify: \n 1- Name \n 2- Number \n Choice: ")
+		fmt.Scan(&choice)
+
+		switch choice {
+		case 2:
+			fmt.Print("Type the name: ")
+			fmt.Scan(&name)
+			if _, exists := directory[name]; exists { //esta siempre es la sintaxis para saber si algo es true o false, asi creas un bool pa preguntar
+				fmt.Print("Write the new number: ")
+				fmt.Scan(&newNumber)
+				directory[name] = newNumber //solamente recorres el nombre con el bool (es falso de serie), si lo encuentra (se hace true)
+				// sigue el codigo, con la variable nueva le asignas a la key el nuevo numero
+				fmt.Println("Number updated!")
+			} else {
+				fmt.Println("Name not found.")
+			}
+		case 1:
+			fmt.Print("Type the name: ")
+			fmt.Scan(&oldName)
+			//aqui le dices a go que oldname es la key y lo que quieres obtener es el value, la segunda posicion, busca el name y dame el value
+			if value, exists := directory[oldName]; exists { //esta siempre es la sintaxis para saber si algo es true o false, asi creas un bool pa preguntar
+				fmt.Print("Write the new name: ")
+				fmt.Scan(&newName)
+				directory[newName] = value
+				delete(directory, oldName)
+				fmt.Println("Name updated!")
+			} else {
+				fmt.Println("Name not found.")
+			}
+		default:
+			fmt.Println("Write a real thing tontopollas")
+		}
+	}
+
 }

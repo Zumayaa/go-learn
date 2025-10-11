@@ -1,0 +1,36 @@
+if value, exists := directory[oldName]; exists { 
+				fmt.Print("Write the new name: ")
+				fmt.Scan(&newName)
+				directory[newName] = value 
+				delete(directory, oldName)
+				fmt.Println("Name updated!")
+			} else {
+				fmt.Println("Name not found.")
+			}
+
+
+directory[oldName] o sea que por asi decirlo, ahi le declaro a 
+go que oldname es mi key y la variable que tengo en mi indice es el value? o sea la segunda posicion? 
+por eso lo entiende asi?
+
+¡Exactamente!
+Cuando escribes directory[oldName], le estás diciendo a Go:
+
+Busca en el map directory la clave oldName.
+Devuélveme el valor asociado a esa clave.
+En Go, un map se declara así:
+
+En tu caso:
+
+La clave es un string (el nombre, como "juan").
+El valor es un string (el número, como "1234").
+Entonces, cuando haces:
+
+oldName es la clave (nombre).
+value es el valor (número) que está guardado en esa clave.
+Por eso Go sabe que directory[oldName] te da el número asociado a ese nombre.
+
+Resumen:
+
+directory[oldName] → buscas el número usando el nombre como clave.
+Así Go entiende que el primer argumento es la clave y lo que devuelve es el valor.
