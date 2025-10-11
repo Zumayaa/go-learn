@@ -11,27 +11,36 @@ func main() {
 		choose int
 	)
 
-	//directory := make(map[string]string)
+	directory := make(map[string]string)
 
-	for choose != 4 {
+	for choose != 5 {
 		fmt.Println("Welcome to Zumayas Directory")
-		fmt.Println("1- Add a new number")
-		fmt.Println("2- Delete a number")
-		fmt.Println("3- Modify a number")
-		fmt.Println("4- Exit")
+		fmt.Println("1- Consult the directory")
+		fmt.Println("2- Add a new number")
+		fmt.Println("3- Delete a number")
+		fmt.Println("4- Modify a number")
+		fmt.Println("5- Exit")
 		fmt.Print("Make a choose: ")
 		fmt.Scan(&choose)
 
 		switch choose {
 		case 1:
-			addNumber()
+			consultNumber(directory)
 		case 2:
-			deleteNumber()
+			addNumber()
 		case 3:
+			deleteNumber()
+		case 4:
 			modifyNumber()
 		}
 	}
 	fmt.Print("bye")
+}
+
+func consultNumber(directory map[string]string) {
+	for k, v := range directory {
+		fmt.Println("Nombre:", k, "| Número:", v)
+	}
 }
 
 func addNumber() {
