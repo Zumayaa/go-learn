@@ -25,7 +25,9 @@ func main() {
 		case 1:
 			add()
 		case 2:
-
+			delete()
+		case 3:
+			edit()
 		}
 	}
 
@@ -47,6 +49,18 @@ func menu(choice *int) {
 	fmt.Println("3- Editar tarea")
 	fmt.Println("Escoge una opción: ")
 	fmt.Scan(choice)
+}
+
+func edit() {
+	var idGet int
+	fmt.Print("Escoge un id para editar tarea: ")
+	fmt.Scan(&idGet)
+
+	for i, task := range tasks {
+		if task.id == idGet {
+			// Aquí va la edición
+		}
+	}
 }
 
 func delete() {
