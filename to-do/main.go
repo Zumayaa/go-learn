@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strconv"
 )
 
 type Task struct {
@@ -47,20 +48,40 @@ func menu(choice *int) {
 	fmt.Println("1- Agregar tarea")
 	fmt.Println("2- Eliminar tarea")
 	fmt.Println("3- Editar tarea")
-	fmt.Println("Escoge una opción: ")
+	fmt.Print("Escoge una opción: ")
 	fmt.Scan(choice)
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+
 }
 
 func edit() {
+	var newDescription string
+	scanner := bufio.NewScanner(os.Stdin)
+
 	var idGet int
 	fmt.Print("Escoge un id para editar tarea: ")
-	fmt.Scan(&idGet)
+	scanner.Scan()
+	idStr := scanner.Text()
+	idGet, err := strconv.Atoi(idStr)
+
+	if err != nil {
+		fmt.Println("ID inválido")
+		return
+	}
 
 	for i, task := range tasks {
-		if task.id == idGet {
-			// Aquí va la edición
+		if task.ID == idGet {
+			fmt.Print("Escribe una nueva descripción: ")
+			scanner.Scan()
+			newDescription = scanner.Text()
+			if newDescription != "" {
+				tasks[i].Description = newDescription
+			} else {
+				fmt.Println("No puede estar vacía")
+			}
 		}
 	}
+	fmt.Print("Se modificó la descripción de tu lista")
 }
 
 func delete() {
