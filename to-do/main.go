@@ -15,6 +15,7 @@ type Task struct {
 
 var tasks []Task
 var idList = 1
+var scanner = bufio.NewScanner(os.Stdin)
 
 func main() {
 	var choice int
@@ -29,6 +30,8 @@ func main() {
 			delete()
 		case 3:
 			edit()
+		case 4:
+			done()
 		}
 	}
 
@@ -48,18 +51,54 @@ func menu(choice *int) {
 	fmt.Println("1- Agregar tarea")
 	fmt.Println("2- Eliminar tarea")
 	fmt.Println("3- Editar tarea")
+	fmt.Println("4- Terminar tarea")
 	fmt.Print("Escoge una opción: ")
 	fmt.Scan(choice)
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 }
 
+func done() {
+	var choice string
+	found := false
+
+	if len(tasks) > 0 {
+		fmt.Print("Escoge un id para editar tarea: ")
+		scanner.Scan()
+		idStr := scanner.Text()
+		idGet, err := strconv.Atoi(idStr)
+
+		if err != nil {
+			fmt.Println("ID inválido")
+			return
+		}
+		for i, task := range tasks {
+			if task.ID == idGet {
+				fmt.Print("¿Quieres finalizar la tarea? s/n ")
+				scanner.Scan()
+				choice = scanner.Text()
+				if choice == "s" {
+					tasks[i].Done = true
+					found = true
+					break
+				} else {
+					break
+				}
+			}
+		}
+	} else {
+		fmt.Println("No puede ir vacío")
+	}
+	if !found {
+		fmt.Println("No se encontró el ID")
+	}
+}
+
 func edit() {
 	var newDescription string
-	scanner := bufio.NewScanner(os.Stdin)
 
 	var idGet int
-	fmt.Print("Escoge un id para editar tarea: ")
+	fmt.Print("Escoge un id para finalizar tarea: ")
 	scanner.Scan()
 	idStr := scanner.Text()
 	idGet, err := strconv.Atoi(idStr)
@@ -68,6 +107,8 @@ func edit() {
 		fmt.Println("ID inválido")
 		return
 	}
+
+	found := false
 
 	for i, task := range tasks {
 		if task.ID == idGet {
@@ -79,9 +120,15 @@ func edit() {
 			} else {
 				fmt.Println("No puede estar vacía")
 			}
+			found = true
+			break
 		}
 	}
-	fmt.Print("Se modificó la descripción de tu lista")
+	if !found {
+		fmt.Println("No se encontró el ID de la tarea")
+	} else {
+		fmt.Print("Se modificó la descripción de tu lista")
+	}
 }
 
 func delete() {
@@ -95,7 +142,7 @@ func add() {
 	fmt.Println("Para salir de esta interfaz escribe 'quit': ")
 
 	for {
-		fmt.Println("Agrega una tarea negro")
+		fmt.Print("Agrega una tarea negro: ")
 		scanner.Scan()
 		description = scanner.Text()
 
